@@ -37,4 +37,9 @@
  - and so on...
 
 
+
+brew install cairo pango gdk-pixbuf libffi
+pip install PyGObject
+
+
 ### For your project. Edit this README.md file to include your own project name,  overview, user stories, and usage. 

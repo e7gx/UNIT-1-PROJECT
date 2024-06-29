@@ -45,5 +45,5 @@ def generate_qr_code():
         '''
         
         image = pyqrcode.create(data)
-        image.svg(f'data/qrcode_assets/{asset_id}_{asset_type}.svg', scale=5)
+        image.png(f'data/qrcode_assets/{asset_id}_{asset_type}.png', scale=5)
         # print(image.terminal(quiet_zone=9))

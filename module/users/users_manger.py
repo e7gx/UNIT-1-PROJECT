@@ -3,12 +3,14 @@ import string
 import pandas as pd
 import csv
 from termcolor import colored
-
 class Employees:
     def __init__(self):
         self.users = []
 
     def get_users(self):
+        """
+        Retrieves and displays the list of users from the 'data/users.csv' file.
+        """
         try:
             with open('data/users.csv', 'r') as file:
                 reader = csv.reader(file)
@@ -18,6 +20,20 @@ class Employees:
             print(colored("No users found!", 'red', attrs=['bold'])) 
 
     def add_user(self, name, gender, email, password, passwordConfirm, role):
+        """
+        Adds a new user to the 'data/users.csv' file.
+
+        Args:
+            name (str): The name of the employee.
+            gender (str): The gender of the employee.
+            email (str): The email of the employee.
+            password (str): The password of the employee.
+            passwordConfirm (str): The confirmation password of the employee.
+            role (str): The role of the employee.
+
+        Returns:
+            None
+        """
         userId = "".join(rd.choices(string.digits, k=10))  # Generate a 10-digit user ID 
         user = Employee(name, gender, email, password, passwordConfirm, role, userId)
         self.users.append(user)
@@ -34,7 +50,17 @@ class Employees:
             writer.writerow([name, gender, email, password, role, userId])
         print(colored(f"Welcome To Mr.IT System {name}", 'green', attrs=['bold']))
         print(colored(f"The User {name} has been added successfully with the ID {userId} And his role is {role}\n and all records inserted successfully!", 'green', attrs=['bold']))
+
     def delete_user(self, identifier):
+        """
+        Deletes a user from the 'data/users.csv' file based on the provided identifier.
+
+        Args:
+            identifier (str): The ID or name of the user to be deleted.
+
+        Returns:
+            None
+        """
         try:
             with open('data/users.csv', 'r') as file:
                 reader = csv.reader(file)
@@ -70,6 +96,12 @@ class Employees:
 
 
     def check_if_file_exists(self):
+        """
+        Checks if the 'data/users.csv' file exists and is not empty.
+
+        Returns:
+            bool: True if the file exists and is not empty, False otherwise.
+        """
         try:
             with open('data/users.csv', 'r') as f:
                 first_char = f.read(1)
@@ -77,6 +109,27 @@ class Employees:
         except FileNotFoundError:
             print(colored("The file was not found!", 'red', attrs=['bold'])) 
             return False
+
+    def find_user(self, email, password):
+        """
+        Finds a user in the 'data/users.csv' file by email and password.
+
+        Args:
+            email (str): The email of the employee.
+            password (str): The password of the employee.
+
+        Returns:
+            dict: The user data if found, None otherwise.
+        """
+        try:
+            with open('data/users.csv', 'r') as file:
+                reader = csv.DictReader(file)
+                for row in reader:
+                    if row['Employee Email'].lower() == email.lower() and row['Employee Password'] == password:
+                        return row
+        except FileNotFoundError:
+            print(colored("No users found!", 'red', attrs=['bold'])) 
+        return None
 
 class Employee:
     def __init__(self, name, gender, email, password, passwordConfirm, role, userId):
