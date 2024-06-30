@@ -1,8 +1,10 @@
+import csv
 import random as rd
 import string
 import pandas as pd
-import csv
 from termcolor import colored
+from simple_term_menu import TerminalMenu
+
 class Employees:
     def __init__(self):
         self.users = []
@@ -34,6 +36,10 @@ class Employees:
         Returns:
             None
         """
+        if self.email_exists(email):
+            print(colored("This email already exists. Please use a different email.", 'red', attrs=['bold']))
+            return
+
         userId = "".join(rd.choices(string.digits, k=10))  # Generate a 10-digit user ID 
         user = Employee(name, gender, email, password, passwordConfirm, role, userId)
         self.users.append(user)
@@ -94,7 +100,6 @@ class Employees:
         except FileNotFoundError:
             print(colored("The file was not found!", 'red', attrs=['bold']))
 
-
     def check_if_file_exists(self):
         """
         Checks if the 'data/users.csv' file exists and is not empty.
@@ -107,10 +112,29 @@ class Employees:
                 first_char = f.read(1)
                 return bool(first_char)
         except FileNotFoundError:
-            print(colored("The file was not found!", 'red', attrs=['bold'])) 
             return False
 
-    def find_user(self, email, password):
+    def email_exists(self, email):
+        """
+        Checks if an email already exists in the 'data/users.csv' file.
+
+        Args:
+            email (str): The email to check.
+
+        Returns:
+            bool: True if the email exists, False otherwise.
+        """
+        try:
+            with open('data/users.csv', 'r') as file:
+                reader = csv.DictReader(file)
+                for row in reader:
+                    if row['Employee Email'].lower() == email.lower():
+                        return True
+        except FileNotFoundError:
+            return False
+        return False
+
+    def auth_users(self, email, password):
         """
         Finds a user in the 'data/users.csv' file by email and password.
 
@@ -130,6 +154,73 @@ class Employees:
         except FileNotFoundError:
             print(colored("No users found!", 'red', attrs=['bold'])) 
         return None
+    
+    def find_user(self,userId):
+        """
+        Finds a user in the 'data/users.csv' file by email and userId.
+
+        Args:
+            email (str): The email of the employee.
+            userId (str): The ID of the employee.
+
+        Returns:
+            dict: The user data if found, None otherwise.
+        """
+        try:
+            with open('data/users.csv', 'r') as file:
+                reader = csv.DictReader(file)
+                for row in reader:
+                    if row['Employee ID'] == userId:
+                        return row
+        except FileNotFoundError:
+            print(colored("No users found!", 'red', attrs=['bold'])) 
+        return None
+
+    def user_manager_menu(self):
+        """
+        Displays the user manager menu.
+        """
+        user_manager_menu = [
+            "1. Add User",
+            "2. Delete User",
+            "3. Display All Users",
+            "4. Find User",
+            "5. Exit"
+        ]
+    
+        quitting = False
+
+        while not quitting:
+            terminal_menu1 = TerminalMenu(user_manager_menu)
+            choice_index1 = terminal_menu1.show()
+
+            print(colored("\n===== User Manager Menu =====", 'blue', attrs=['bold']))
+            
+            if choice_index1 == 4:
+                print(colored("Exiting the user manager menu...", 'red', attrs=['bold']))
+                quitting = True  
+            elif choice_index1 == 0:
+                name = input("Enter name: ")
+                gender = input("Enter gender: ")
+                email = input("Enter email: ")
+                password = input("Enter password: ")
+                passwordConfirm = input("Confirm password: ")
+                role = input("Enter role: ")
+                self.add_user(name, gender, email, password, passwordConfirm, role)
+            elif choice_index1 == 1:
+                identifier = input("Enter user ID or name to delete: ")
+                self.delete_user(identifier)
+            elif choice_index1 == 2:
+                self.get_users()
+            elif choice_index1 == 3:
+                userId = input("Enter Employee ID: ")
+                user = self.find_user(userId)
+                if user:
+                    print(colored(f"User found: {user}", 'green', attrs=['bold']))
+                else:
+                    print(colored("User not found.", 'red', attrs=['bold']))
+            else:
+                print(colored("Invalid choice! Please enter a valid option.", 'yellow', attrs=['bold']))
 
 class Employee:
     def __init__(self, name, gender, email, password, passwordConfirm, role, userId):
@@ -140,3 +231,7 @@ class Employee:
         self.passwordConfirm = passwordConfirm
         self.role = role
         self.userId = userId
+
+if __name__ == "__main__":
+    employee_manager = Employees()
+    employee_manager.user_manager_menu()

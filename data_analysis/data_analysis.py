@@ -7,10 +7,13 @@ from termcolor import colored
 from art import *
 import colorama
 from colorama import Fore
-
 from data.code.qrcode import generate_qr_code
-
+from data.pdf.pdf import create_qr_code_and_pdf
+from simple_term_menu import TerminalMenu
 colorama.init()
+
+
+
 
 class DataAnalysis:
     def __init__(self):
@@ -115,3 +118,36 @@ class DataAnalysis:
         plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle
         plt.title('Distribution of Assets by Brand')
         plt.show()
+        
+    def dashboard_menu(self):
+        data_menu = [
+            "1. Add Assets",
+            "2. Display Data in Table",
+            "3. Display Data in Graph",
+            "4. Display Data in Pie Chart",
+            "5. Genrate Pdf File For Assets",
+            "6. Exit",
+        ]
+        quiting = False
+
+        while quiting == False :
+            
+            print(colored("\n===== Data Analysis Dashboard =====", 'blue', attrs=['bold']))
+            terminal_menu = TerminalMenu(data_menu)
+            choice_index = terminal_menu.show()
+
+            if choice_index == 0:
+                self.add_assets()
+            elif choice_index == 1:
+                self.display_data_in_table()
+            elif choice_index == 2:
+                self.display_data_in_graph()
+            elif choice_index == 3:
+                self.display_data_in_pie()
+            elif choice_index == 4:
+                 create_qr_code_and_pdf()
+            elif choice_index == 5:
+                print(colored("Exiting the Data Analysis Dashboard...", 'red', attrs=['bold']))
+                break
+            else:
+                print(colored("Invalid choice! Please enter a valid option.", 'yellow', attrs=['bold']))
