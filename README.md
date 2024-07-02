@@ -34,31 +34,10 @@ To get started with Mr.IT, follow these steps:
 git clone https://github.com/e7gx/UNIT-1-PROJECT.git
 cd UNIT-1-PROJECT
 
-run main.py
-
-# Mr.IT 💻
-Asset Management System
-Welcome to Mr.IT, a comprehensive asset management system designed to streamline the process of tracking and managing IT assets. Built with Python, Mr.IT offers a user-friendly platform for organizations to maintain an organized inventory of their hardware, software licenses, and other IT assets.
-
-## Features
-Features 🚀
-- Inventory Management: Track assets including hardware, software, and licenses. 🖥️
-- User Management: Manage user access and permissions for asset management. 👤
-- Qr Code: Generate unique QR codes for all of your assets. 🖨️
-- Reporting: Generate files on asset utilization, availability, and more. 📊
-- Alerts and Notifications: Receive notifications for asset maintenance, renewals, or critical changes. 🔔
-- AI Chat using chatgpt API: Replace it with your API and add it to the .env file. 🤖
-- Data Visualization: Utilize Matplotlib for visualizing user and asset data. 📈
-- Computer Vision: Implement Computer Vision for scanning QR codes and displaying data using cv2 and pyzbar. 📷
-
-## Installation
-To get started with Mr.IT, follow these steps:
-1. Clone the repository:
-```bash
-git clone https://github.com/e7gx/UNIT-1-PROJECT.git
-cd UNIT-1-PROJECT
-run main.py
+./UNIT-1-PROJECT/main.py
 ```
+To get started with Mr.IT, follow these steps:
+
 
 For macOS users:
 Install the necessary dependencies:
@@ -84,39 +63,39 @@ Admin Path :
     Note You need to replace an api from chatgpt api
 2.Dashboard section containing the following 📊📈:
 
-    -View asset table 📋
-    -View asset chart 📉
-    -View a pie chart of assets 🥧
-    -Show a gender pie chart 🚻
-    -View a pie chart of user roles 🧑‍💻👩‍💻
-    -Generate PDF file of assets 🖨️
-    -Export data to CSV 📄
-    -Export data to Excel 📊
-    -Exit 🚪
+    .View asset table 📋
+    .View asset chart 📉
+    .View a pie chart of assets 🥧
+    .Show a gender pie chart 🚻
+    .View a pie chart of user roles 🧑‍💻👩‍💻
+    .Generate PDF file of assets 🖨️
+    .Export data to CSV 📄
+    .Export data to Excel 📊
+    .Exit 🚪
 
 3.User Managers section containing the following 🎩:
 
-    -Add User 📇
-    -Delete User 👋
-    -Display All Users 📊
-    -Find User 🔍
-    -Exit 🚪
+    .Add User 📇
+    .Delete User 👋
+    .Display All Users 📊
+    .Find User 🔍
+    .Exit 🚪
 
 
 4.Assets section containing the following 📝📦🔧:
 
-    -Add Assets ➕
-    -Delete Asset 🗑️
-    -Search For Asset 🔍
-    -Edit Assets ✏️
-    -Generate Pdf File For Assets 🖨️
-    -QRCode Reader 📷
-    -Exit 🚪
+    .Add Assets ➕
+    .Delete Asset 🗑️
+    .Search For Asset 🔍
+    .Edit Assets ✏️
+    .Generate Pdf File For Assets 🖨️
+    .QRCode Reader 📷
+    .Exit 🚪
 
 
 5.Exit
 
-    -For Exiting the Program
+    .For Exiting the Program
 
 
 
@@ -144,7 +123,7 @@ Welcome IT  💻
 
 5.Exit
 
-    -For Exiting the Program
+    .For Exiting the Program
 
 
 ## Contact
