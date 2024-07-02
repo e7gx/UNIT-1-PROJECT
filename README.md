@@ -1,4 +1,5 @@
-# Mr.IT 💻
+# <center>Mr.IT 💻</center>
+
 Asset Management System
 Welcome to Mr.IT, a comprehensive asset management system designed to streamline the process of tracking and managing IT assets. Built with Python, Mr.IT offers a user-friendly platform for organizations to maintain an organized inventory of their hardware, software licenses, and other IT assets.
 
@@ -48,6 +49,7 @@ pip install PyGObject
 python -m venv .venv
 source .venv/bin/activate  
 pip install -r requirements.txt
+pip list 
 
 ```
 
@@ -60,42 +62,45 @@ Register an account as an employee or register as a system administrator 📝�
 Admin Path :
 
 1.Chat page with artificial intelligence using ChatGPT API 🤖💬
-    Note You need to replace an api from chatgpt api
+    Note: You need to replace the API key with the OpenAI API.
+    https://platform.openai.com/api-keys
+
+
 2.Dashboard section containing the following 📊📈:
 
-    .View asset table 📋
-    .View asset chart 📉
-    .View a pie chart of assets 🥧
-    .Show a gender pie chart 🚻
-    .View a pie chart of user roles 🧑‍💻👩‍💻
-    .Generate PDF file of assets 🖨️
-    .Export data to CSV 📄
-    .Export data to Excel 📊
-    .Exit 🚪
+    View asset table 📋
+    View asset chart 📉
+    View a pie chart of assets 🥧
+    Show a gender pie chart 🚻
+    View a pie chart of user roles 🧑‍💻👩‍💻
+    Generate PDF file of assets 🖨️
+    Export data to CSV 📄
+    Export data to Excel 📊
+    Exit 🚪
 
 3.User Managers section containing the following 🎩:
 
-    .Add User 📇
-    .Delete User 👋
-    .Display All Users 📊
-    .Find User 🔍
-    .Exit 🚪
+    Add User 📇
+    Delete User 👋
+    Display All Users 📊
+    Find User 🔍
+    Exit 🚪
 
 
 4.Assets section containing the following 📝📦🔧:
 
-    .Add Assets ➕
-    .Delete Asset 🗑️
-    .Search For Asset 🔍
-    .Edit Assets ✏️
-    .Generate Pdf File For Assets 🖨️
-    .QRCode Reader 📷
-    .Exit 🚪
+    Add Assets ➕
+    Delete Asset 🗑️
+    Search For Asset 🔍
+    Edit Assets ✏️
+    Generate Pdf File For Assets 🖨️
+    QRCode Reader 📷
+    Exit 🚪
 
 
 5.Exit
 
-    .For Exiting the Program
+  For Exiting the Program
 
 
 
@@ -104,26 +109,25 @@ IT Path:
 
 Welcome IT  💻
 
-1.View Profile 👤
+1. View Profile 👤
 
   - View Profile by ID 
 
-2.Delete Account 🗑️
+2. Delete Account 🗑️
 
   - Delete Profile by ID 
 
-3.View Assets 📊
+3. View Assets 📊
 
   - display the data in pdf file by the name "assets_report.pdf"
-
 
 4. QRCode Reader 📷
 
     - The QRCode Reader is a feature that allows you to decode QR codes from an input frame. It uses the `pyzbar` library to     decode the QR code and displays the decoded text. The feature also includes the ability to draw a polygon around the QR code and check if the decoded data is present in a CSV file. The code snippet provided demonstrates how to use the QRCode Reader feature in Python.
 
-5.Exit
+5. Exit
 
-    .For Exiting the Program
+    For Exiting the Program
 
 
 ## Contact
