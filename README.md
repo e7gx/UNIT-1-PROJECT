@@ -34,8 +34,6 @@ To get started with Mr.IT, follow these steps:
 ```bash
 git clone https://github.com/e7gx/UNIT-1-PROJECT.git
 cd UNIT-1-PROJECT
-
-./UNIT-1-PROJECT/main.py
 ```
 To get started with Mr.IT, follow these steps:
 
