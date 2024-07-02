@@ -33,45 +33,6 @@ def clear_console():
     """
     os.system('cls' if os.name == 'nt' else 'clear')
 
-
-
-def user_manager_menu(self):
-        """
-        Displays the user manager menu.
-        """
-        user_menu = [
-            "1. Add Assets",
-            "2. Display Data in Table",
-            "3. Display Data in Graph",
-            "4. Display Data in Pie Chart",
-            "5. Genrate Pdf File For Assets",
-            "6. Exit"
-            
-        ]
-                
-        quitting = False
-
-        quitting = False  # Corrected spelling
-
-        while quitting == False:  # More Pythonic way to write `while quitting == False:`
-            terminal_menu1 = TerminalMenu(user_menu,clear_screen= True)
-            choice_index1 = terminal_menu1.show()
-
-            print(colored("\n===== Data Analysis Dashboard =====", 'blue', attrs=['bold']))
-            
-            if choice_index1 == 0:
-                print(colored("Exiting the user manager menu...", 'red', attrs=['bold']))
-                quitting = True  
-            elif choice_index1 == 1:
-                self.delete_user()
-            elif choice_index1 == 2:
-                self.get_users()
-            elif choice_index1 == 3:
-                self.find_user()
-            elif choice_index1 == 4:
-                self.reg_new_admin()# Properly set quitting to True to exit the loop
-            else:
-                print(colored("Invalid choice! Please enter a valid option.", 'yellow', attrs=['bold']))
 def menuIT():
     options = [
         "1. View Profile",
@@ -121,7 +82,7 @@ def view_profile():
             csv_reader = csv.DictReader(file)
             for row in csv_reader:
                 if row['Employee ID'].lower() == search_term.lower():
-                    print(f" Welcome {row['Employee Name']}:\n Employee Name: {row['Employee Name']} Employee ID: {row['Employee ID']}\n Employee Role: {row['Employee Role']}\n Employee Gender: {row['Employee Gender']}")
+                    print(colored(f" Welcome {row['Employee Name']}👋 \n Employee Name: {row['Employee Name']} \n Employee ID: {row['Employee ID']}\n Employee Role: {row['Employee Role']}\n Employee Gender: {row['Employee Gender']}\n\n",'green',attrs=['bold']))
                     user_found = True # FOUND THE USER
                     break  
 
@@ -196,7 +157,7 @@ def menuAdmin():
         "5. Exit          🚪"
     ]
 
-    main_menu = TerminalMenu(options,title="\n\n<========= Assets Management Menu =========>\n\n",
+    main_menu = TerminalMenu(options,
                 menu_cursor="-> ",
                 menu_cursor_style=("bg_green", "fg_yellow"),
                 menu_highlight_style=("bg_green", "fg_yellow"),
@@ -237,7 +198,7 @@ def main():
         ]
 
         employees = EMP()
-        mainMenu = TerminalMenu(options,title="\n\n<========== Registration Menu ==========>\n\n",
+        mainMenu = TerminalMenu(options,title="\n\n<========= Assets Management Menu =========>\n\n",
                 menu_cursor="-> ",
                 menu_cursor_style=("bg_blue", "fg_yellow"),
                 menu_highlight_style=("bg_green", "fg_yellow"),
@@ -249,17 +210,17 @@ def main():
             optionsIndex = mainMenu.show()
             optionsChoice = options[optionsIndex]
             clear_console()
-            print(colored("\n\n<============ Welcome to Mr.IT Registration Page 🔑🚪 ============>\n", 'blue', attrs=['bold']))
+            # print(colored("\n\n<============ Welcome to Mr.IT Registration Page 🔑🚪 ============>\n", 'blue', attrs=['bold']))
             if optionsChoice.startswith("1"):
                 email = input(colored('Enter your email: ', 'green', attrs=['bold'])).lower()
                 password = getpass.getpass(colored('Enter your password: ', 'green', attrs=['bold'])).lower()
                 user = employees.auth_users(email, password)
                 if user:
                     if user['Employee Role'].lower() == 'admin':
-                        print(colored("Welcome Admin 🩵", 'green', attrs=['bold']))
+                        print(colored("\n\nWelcome Admin 🩵\n\n", 'green', attrs=['bold']))
                         menuAdmin()
                     else:
-                        print(colored("Welcome IT💻", 'green', attrs=['bold']))
+                        print(colored("\n\nWelcome IT💻\n\n", 'green', attrs=['bold']))
                         menuIT()
                 else:
                     print(colored("Invalid username or password, please try again.", 'red', attrs=['bold']))
@@ -267,7 +228,7 @@ def main():
                 users = Users()
                 users.reg_new_users()
             elif optionsChoice.startswith("3"):
-                print(colored("Thanks for using Mr.IT System 🩵 \n stay safe, see you soon 👋", 'blue', attrs=['bold']))
+                print(colored("\nThanks for using Mr.IT System 🩵 \n stay safe, see you soon 👋", 'blue', attrs=['bold']))
                 break
             else:
                 print(colored("Invalid choice, please try again ", 'red', attrs=['bold']))
@@ -276,3 +237,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

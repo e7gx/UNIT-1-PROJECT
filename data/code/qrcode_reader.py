@@ -32,11 +32,9 @@ def check_device_in_csv(qr_data):
     """
     Check if the QR code data is present in the CSV file.
     """
-    with open("/Users/abdullah/Desktop/tuwaiq_academy/PythonProject/UNIT-1-PROJECT/data/devices.csv", mode='r') as csvfile:
+    with open("data/devices.csv", mode='r') as csvfile:
         csvreader = csv.reader(csvfile)
         for row in csvreader:
             if qr_data in row:
-                print("Device found in CSV file.")
                 return True
-    print("Device not found in CSV file.")
     return False
