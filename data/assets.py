@@ -1,13 +1,16 @@
 import csv
+import datetime
 import string
-import tempfile
+import cv2
 from termcolor import colored
 from art import *
 import colorama
+from data.code.qrcode_reader import check_device_in_csv, draw_polygon, get_qr_data
 from data.pdf.pdf import create_qr_code_and_pdf
 from simple_term_menu import TerminalMenu
-import shutil
 import random as rd
+
+
 
 colorama.init()
 
@@ -36,19 +39,33 @@ class AddAssets:
                     processor = input(f'{i+1}. Enter Processor: ')
                     ram = input(f'{i+1}. Enter RAM: ')
                     storage = input(f'{i+1}. Enter Storage: ')
-                    purchase_date = input(f'{i+1}. Enter Purchase Date (YYYY-MM-DD): ')
+                    while True:
+                        purchase_date = input(f'{i+1}. Enter Purchase Date (YYYY-MM-DD): ')
+                        try:
+                            datetime.datetime.strptime(purchase_date, '%Y-%m-%d')
+                            break
+                        except ValueError:
+                            print(colored("Invalid date format. Please enter the date in the format YYYY-MM-DD.", 'red', attrs=['bold']))
                     warranty_info = input(f'{i+1}. Enter Warranty Information: ')
+                    while True:
+                        try:
+                            warranty_info = int(warranty_info)
+                            break
+                        except ValueError:
+                            print("Invalid input. Please enter a number.")
+                            warranty_info = input(f'{i+1}. Enter Warranty Information: ')
                     assigned_to = input(f'{i+1}. Enter Assigned To: ')
+                    assigned_to = str(assigned_to)
                     location = input(f'{i+1}. Enter Location: ')
                     cost = input(f'{i+1}. Enter Cost: $')
-                    depreciation = input(f'{i+1}. Enter Depreciation: ')
+                    depreciation = input(f'{i+1}. Enter Depreciation: $ ')
 
                     writer.writerow([asset_id, asset_type, brand, model, serial_number, operating_system, processor, ram, storage, purchase_date, warranty_info, assigned_to, location, cost, depreciation])
-                    print()
+                    print("\n")
                     print(colored("All records inserted successfully!", 'green', attrs=['bold']))
 
         except Exception as e:
-            print(f"An error in add_assets function class AddAssets: {str(e)}")
+            print(f"An error in add_assets() function class AddAssets: {str(e)}")
 
     def delete_asset(self, asset_id):
         """
@@ -110,16 +127,14 @@ class AddAssets:
         asset_found = False
         
         try:
-                # Example usage
             search_term = input("Enter the asset name or ID to search for: ")
             with open(file_path, mode='r') as file:
                 csv_reader = csv.DictReader(file)
                 for row in csv_reader:
-                    # Assuming you're searching for an asset by its name or ID in the 'asset_name' column
                     if row['Asset ID'].lower() == search_term.lower():
                         print(f"Asset Found: {row}")
                         asset_found = True
-                        break  # Exit the loop after finding the asset
+                        break 
                 
                 if not asset_found:
                     print("Asset not found.")
@@ -128,39 +143,44 @@ class AddAssets:
             print(f"The file {file_path} does not exist.")
         except Exception as e:
             print(f"An error occurred: {e}")
-            
-    # def edit_asset(asset_id, new_name, new_description):
-    #     temp_file = tempfile.NamedTemporaryFile(mode='w', delete=False)
-    #     assets_file_path = 'data/devices.csv'
-    #     asset_found = False
 
-    #     with open(assets_file_path, mode='r') as file, temp_file:
-    #         reader = csv.DictReader(file)
-    #         writer = csv.DictWriter(temp_file, fieldnames=reader.fieldnames)
-    #         writer.writeheader()
+    def qrcode_reader(self):
+        """
+        Reads QR codes from the video stream captured by the camera.
 
-    #         for row in reader:
-    #             if row['Asset ID'] == asset_id:
-    #                 print(f"Editing asset: {row['Asset ID']}")
-    #                 row['Asset ID'] = new_name
-    #                 row['Depreciation'] = new_description
-    #                 asset_found = True
-    #             writer.writerow(row)
+        This method opens the camera, captures frames, and processes them to detect QR codes.
+        It continuously reads frames from the webcam until a QR code containing a device ID is found in a CSV file.
+        If a device ID is found, it prints a success message, writes the device has been found, and stops the process.
+        If a device ID is not found, it prints a failure message and continues to read frames.
+        The processed frames are displayed in a window named "QR Code Scanner".
 
-    #     if asset_found:
-    #         shutil.move(temp_file.name, assets_file_path)
-    #         print("Asset updated successfully.")
-    #     else:
-    #         print("Asset not found.")
-    #     temp_file.close()
+        Returns:
+            None
+        """
+        cap = cv2.VideoCapture(0)
+        try:
+            while True:
+                ret, frame = cap.read()
+                if not ret:
+                    print("Failed to grab frame")
+                    break
+                qr_objects = get_qr_data(frame)
+                if qr_objects:
+                    qr_data = qr_objects[0].data.decode('utf-8')
+                    print(qr_data)
+                    if check_device_in_csv(qr_data):
+                        print(colored("Device ID found in CSV file.", "green"))
+                        with open('data/devices.csv', mode='a', newline='') as file:
+                            file.write(f"Device with ID '{qr_data}' has been found.\n")
+                        break
+                frame = draw_polygon(frame, qr_objects)
+                cv2.imshow("QR Code Scanner", frame)
+                if cv2.waitKey(1) & 0xFF == ord('q'):
+                    break
+        finally:
+            cap.release()
+            cv2.destroyAllWindows()
 
-    # # Example usage
-    # asset_id = input("Enter the asset ID to edit: ")
-    # new_name = input("Enter the new name for the asset: ")
-    # new_description = input("Enter the new description for the asset: ")
-    # edit_asset(asset_id, new_name, new_description)    
-
-                
     def assets_menu(self):
         data_menu = [
             "1. Add Assets",
@@ -168,18 +188,19 @@ class AddAssets:
             "3. Search For Asset",
             "4. Edit Assets",
             "5. Generate Pdf File For Assets",
-            "6. Exit",
+            "6. QRCode Reader",
+            "7. Exit",
         ]
         quitting = False
 
         while not quitting:
-            print(colored("\n===== Data Analysis Dashboard =====", 'blue', attrs=['bold']))
+            print(colored("\n<===== Assets Menu =====>\n", 'blue', attrs=['bold']))
             terminal_menu = TerminalMenu(
                 data_menu,
-                title="Assets Management Menu",
                 menu_cursor="-> ",
                 menu_cursor_style=("bg_red", "fg_yellow"),
                 menu_highlight_style=("bg_green", "fg_yellow"),
+
                 cycle_cursor=True,
             )
 
@@ -198,6 +219,12 @@ class AddAssets:
             elif choice_index == 4:
                 create_qr_code_and_pdf()
             elif choice_index == 5:
+                    print(colored("Scanning......","light_green",attrs=['bold']))
+                    self.qrcode_reader()
+                    if cv2.waitKey(1) & 0xFF == ord('q'):
+                        break
+                    print(colored("Exiting the Assets ...", 'red', attrs=['bold']))
+            elif choice_index == 6:
                 print(colored("Exiting the Assets ...", 'red', attrs=['bold']))
                 quitting = True
             else:

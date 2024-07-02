@@ -1,13 +1,10 @@
 import csv
 import matplotlib.pyplot as plt
 import pandas as pd
-import numpy as np
-from colorama import Fore, Back, Style
 from termcolor import colored
 from art import *
 import colorama
-from colorama import Fore
-from data.code.qrcode import generate_qr_code
+from  data.code.qrcode import generate_qr_code
 from data.pdf.pdf import create_qr_code_and_pdf
 from simple_term_menu import TerminalMenu
 colorama.init()
@@ -66,7 +63,40 @@ class DataAnalysis:
             df = pd.DataFrame(reader)
             print(colored(df, 'green', attrs=['bold']))
 
+
+    def export_to_excel(self):
+        try:
+            with open(self.file, 'r') as excelfile:
+                df = pd.read_csv(excelfile)
+                excelfile = f'data/Exported/assets_{pd.Timestamp.now().strftime("%Y-%m-%d")}.csv'
+                df.to_excel('data/Exported/assets.xlsx', index=False)
+                print(colored("Data exported to 'data/Exported/assets.xlsx' successfully!", 'green', attrs=['bold']))
+        except FileNotFoundError:
+            print(colored("The file does not exist. Please add some data first.", 'red', attrs=['bold']))
+            
+    def export_to_csv(self):
+        try:
+            with open(self.file, 'r') as csvfile:
+                df = pd.read_csv(csvfile)
+                csv_file = f'data/Exported/assets_{pd.Timestamp.now().strftime("%Y-%m-%d_%H-%M-%S")}.csv'
+                df.to_csv(csv_file, index=False)
+                print(colored(f"Data exported to '{csv_file}' successfully!", 'green', attrs=['bold']))
+        except FileNotFoundError:
+            print(colored("The file does not exist. Please add some data first.", 'red', attrs=['bold']))
+
     def display_data_in_graph(self):
+        """
+        Displays a bar graph showing the number of assets per brand in the company.
+
+        Reads data from a CSV file and counts the number of assets for each brand.
+        Then, plots the data using matplotlib.
+
+        Args:
+            self (object): The current instance of the class.
+
+        Returns:
+            None
+        """
         brand_count = {}
 
         with open(self.file, 'r') as csvfile:
@@ -119,35 +149,98 @@ class DataAnalysis:
         plt.title('Distribution of Assets by Brand')
         plt.show()
         
+    def display_users_gender(self):
+        file = 'data/users.csv'
+        gender_count = {}
+
+        with open(file, 'r') as csvfile:
+            plots = csv.reader(csvfile, delimiter=',')
+            next(plots, None)  # Skip the header row
+            for row in plots:
+                gender = row[1]  # Adjusted to the correct index for 'Brand'
+                if gender in gender_count:
+                    gender_count[gender] += 1
+                else:
+                    gender_count[gender] = 1
+
+        # Prepare data for plotting
+        gender = list(gender_count.keys())
+        counts = list(gender_count.values())
+
+        # Plotting
+        plt.figure(figsize=(10, 6))  # Optional: Adjust figure size
+        plt.pie(counts, labels=gender, autopct='%1.1f%%', startangle=140)
+        plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle
+        plt.title('Distribution of males and Felames')
+        plt.show()
+        
+        
+    def display_users_role(self):
+        file = 'data/users.csv'
+        role_count = {}
+
+        with open(file, 'r') as csvfile:
+            plots = csv.reader(csvfile, delimiter=',')
+            next(plots, None)  # Skip the header row
+            for row in plots:
+                role = row[4]  # Adjusted to the correct index for 'Brand'
+                if role in role_count:
+                    role_count[role] += 1
+                else:
+                    role_count[role] = 1
+
+        # Prepare data for plotting
+        brands = list(role_count.keys())
+        counts = list(role_count.values())
+
+        # Plotting
+        plt.figure(figsize=(10, 6))  # Optional: Adjust figure size
+        plt.pie(counts, labels=brands, autopct='%1.1f%%', startangle=140)
+        plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle
+        plt.title('Distribution of males and Felames')
+        plt.show()
+        
+        
     def dashboard_menu(self):
         data_menu = [
-            "1. Add Assets",
-            "2. Display Data in Table",
-            "3. Display Data in Graph",
-            "4. Display Data in Pie Chart",
-            "5. Genrate Pdf File For Assets",
-            "6. Exit",
+            "1. Display Assets Table ",
+            "2. Display Assets Graph  ",
+            "3. Display Assets Pie Chart",
+            "4. Display Gender Pie Chart",
+            "5. Display Users Role Pie Chart",
+            "6. Genrate Pdf File For Assets ",
+            "7. Export Data to CSV",
+            "8. Export Data to Excel",
+            "9. Exit",
         ]
         quiting = False
-
         while quiting == False :
-            
+    
             print(colored("\n===== Data Analysis Dashboard =====", 'blue', attrs=['bold']))
-            terminal_menu = TerminalMenu(data_menu)
+            terminal_menu = TerminalMenu(data_menu,menu_cursor="-> ",
+                menu_cursor_style=("bg_red", "fg_yellow"),
+                menu_highlight_style=("bg_green", "fg_yellow"),
+                cycle_cursor=True,)
             choice_index = terminal_menu.show()
-
             if choice_index == 0:
-                self.add_assets()
-            elif choice_index == 1:
                 self.display_data_in_table()
-            elif choice_index == 2:
+            elif choice_index == 1:
                 self.display_data_in_graph()
-            elif choice_index == 3:
+            elif choice_index == 2:
                 self.display_data_in_pie()
+            elif choice_index == 3:
+                self.display_users_gender()
             elif choice_index == 4:
-                 create_qr_code_and_pdf()
+                self.display_users_role()
             elif choice_index == 5:
-                print(colored("Exiting the Data Analysis Dashboard...", 'red', attrs=['bold']))
-                break
+                create_qr_code_and_pdf()
+            elif choice_index == 6:
+                self.export_to_csv()
+            elif choice_index == 7:
+                self.export_to_excel()
+            elif choice_index == 8:
+                 print(colored("Exiting the Data Analysis Dashboard...", 'red', attrs=['bold']))
+                 break
+
             else:
                 print(colored("Invalid choice! Please enter a valid option.", 'yellow', attrs=['bold']))

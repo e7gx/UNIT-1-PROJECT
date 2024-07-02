@@ -2,8 +2,9 @@ from fpdf import FPDF
 import pyqrcode
 import pandas as pd
 import os
-import png
 from termcolor import colored
+
+from data.code.qrcode import generate_qr_code
 
 class PDF(FPDF):
     """
@@ -12,6 +13,7 @@ class PDF(FPDF):
     def header(self):
         """
         Header method to add logo and title to each page.
+        
         """
         # Add logo
         self.image('data/logo.png', 10, 8, 33)
@@ -41,7 +43,7 @@ def add_qr_code_at_top_right(pdf, data):
     # Replace invalid characters in qr_data with underscores
     qr_data = qr_data.replace('/', '_').replace(':', '_').replace('*', '_').replace('?', '_').replace('"', '_').replace('<', '_').replace('>', '_').replace('|', '_')
     qr = pyqrcode.create(qr_data)
-    qr_image_path = f"{qr_data}.png"
+    qr_image_path = f"data/code/qrcode_assets/{qr_data}.png"
     qr.png(qr_image_path, scale=2)
     
     # Position QR code at the top right of the page
@@ -53,9 +55,9 @@ def add_qr_code_at_top_right(pdf, data):
     pdf.set_xy(qr_x, qr_y + 20)
     pdf.set_font('Arial', 'B', 10)
     pdf.cell(20, 10, 'Scan me!!', 0, 2, 'C')
-    
-    # Remove QR code image file after adding to PDF
-    os.remove(qr_image_path)
+
+
+
 
 def add_data_in_center_as_table(pdf, data):
     """
@@ -100,7 +102,7 @@ def create_qr_code_and_pdf():
     """
     Main function to create a PDF report with QR codes and asset information.
     """
-    # Read data from CSV
+    # Read data from CSV that i have the devices information
     df = pd.read_csv('data/devices.csv')
     pdf = PDF()
 
@@ -116,7 +118,9 @@ def create_qr_code_and_pdf():
     
     # Save the PDF
     pdf.output('data/pdf/assets_report.pdf')
+    generate_qr_code()
     print(colored("PDF report generated successfully!✅", 'green', attrs=['bold']))
-
+    pdf_path = os.path.abspath('data/pdf/assets_report.pdf')
+    print(colored(pdf_path, 'green', attrs=['bold']))
 if __name__ == "__main__":
     create_qr_code_and_pdf()

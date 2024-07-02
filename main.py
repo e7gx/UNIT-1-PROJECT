@@ -1,6 +1,6 @@
 import csv
-from data.code.qrcode import generate_qr_code
-from data.pdf.pdf import create_qr_code_and_pdf
+import getpass
+import cv2
 from module.users.emp import Users
 from module.users.users_manger import Employees as EMP
 from data_analysis.data_analysis import DataAnalysis as DA
@@ -11,7 +11,7 @@ from termcolor import colored
 from art import *
 import colorama
 import os
-from data.assets import AddAssets
+
 
 
 colorama.init()
@@ -72,17 +72,20 @@ def user_manager_menu(self):
                 self.reg_new_admin()# Properly set quitting to True to exit the loop
             else:
                 print(colored("Invalid choice! Please enter a valid option.", 'yellow', attrs=['bold']))
-def menuUser():
+def menuIT():
     options = [
         "1. View Profile",
-        "2. Update Profile",
-        "3. Delete Account",
-        "4. View Assets",
-        "5. Request Support",
-        "6. Exit"
+        "2. Delete Account",
+        "3. View Assets",
+        "4. Qrcode Reader",
+        "5. Exit"
     ]
 
-    main_menu = TerminalMenu(options)
+    main_menu = TerminalMenu(options, menu_cursor="-> ",
+                menu_cursor_style=("bg_red", "fg_yellow"),
+                menu_highlight_style=("bg_green", "fg_yellow"),
+
+                cycle_cursor=True,)
     quiting = False
 
     while not quiting:
@@ -96,51 +99,107 @@ def menuUser():
         elif optionsChoice.startswith("1"):
             view_profile()
         elif optionsChoice.startswith("2"):
-            update_profile()
+            identifier = input("Enter user ID or name to delete: ")
+            delete_account(identifier)
         elif optionsChoice.startswith("3"):
-            delete_account()
-        elif optionsChoice.startswith("4"):
             view_assets()
-        elif optionsChoice.startswith("5"):
-            request_support()
+        elif optionsChoice.startswith("4"):
+             print(colored("Scanning......","light_green",attrs=['bold']))
+             assets.qrcode_reader()
+             if cv2.waitKey(1) & 0xFF == ord('q'):
+                    break
+             print(colored("Exiting the Qrcode ...", 'red', attrs=['bold']))
 
 def view_profile():
+
     print(colored("Profile Details:", 'blue', attrs=['bold']))
-    # Implementation to view user profile
+    file_path = 'data/users.csv'
+    user_found = False
+    try:
+        search_term = input("Enter the Your ID for: ")
+        with open(file_path, mode='r') as file:
+            csv_reader = csv.DictReader(file)
+            for row in csv_reader:
+                if row['Employee ID'].lower() == search_term.lower():
+                    print(f" Welcome {row['Employee Name']}:\n Employee Name: {row['Employee Name']} Employee ID: {row['Employee ID']}\n Employee Role: {row['Employee Role']}\n Employee Gender: {row['Employee Gender']}")
+                    user_found = True # FOUND THE USER
+                    break  
 
-def update_profile():
-    print(colored("Update Profile:", 'blue', attrs=['bold']))
-    # Implementation to update user profile
+        if not user_found:  # USER NOT FOUND
+            print(colored("Opss User not found.", 'red', attrs=['bold']))
 
-def delete_account():
-    confirmation = input(colored("Are you sure you want to delete your account? (yes/no): ", 'red', attrs=['bold']))
-    if confirmation.lower() == 'yes':
-        # Implementation to delete user account
-        print(colored("Your account has been successfully deleted.", 'green', attrs=['bold']))
+    except FileNotFoundError:
+        print(f"The file {file_path} does not exist.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        
+        
+def delete_account(identifier):
+        """
+        Deletes a user from the 'data/users.csv' file based on the provided identifier.
+
+        Args:
+            identifier (str): The ID or name of the user to be deleted.
+
+        Returns:
+            None
+        """
+        try:
+            with open('data/users.csv', 'r') as file:
+                reader = csv.reader(file)
+                users = list(reader)
+            
+            if not users or len(users) == 1:
+                print(colored("No ID found. Please check your ID.", 'red', attrs=['bold']))
+                return
+            
+            # Remove header
+            header = users.pop(0)
+
+            # Find the user to delete by ID or name
+            deleted = False
+            for user in users:
+                if len(user) == 6 and (user[-1] == identifier):
+                    users.remove(user)
+                    deleted = True
+                    break
+
+            with open('data/users.csv', 'w', newline='') as file:
+                writer = csv.writer(file)
+                writer.writerow(header)
+                writer.writerows(users)
+
+            if deleted:
+                print(colored(f"User with ID '{identifier}' has been deleted successfully.", 'green', attrs=['bold']))
+            else:
+                print(colored(f"No user found with ID  '{identifier}'.", 'red', attrs=['bold']))
+        except FileNotFoundError:
+            print(colored("The file was not found!", 'red', attrs=['bold']))
 
 def view_assets():
-    print(colored("Your Assets:", 'blue', attrs=['bold']))
-    # Implementation to view user assets
+    try:
+        print(colored("open this File Below:", 'blue', attrs=['bold']))
+        pdf_path = os.path.abspath('data/pdf/assets_report.pdf')
+        print(colored(pdf_path, 'green', attrs=['bold']))
+    except Exception as e:
+        print(f"An error occurred while viewing assets: {e}")
 
-def request_support():
-    print(colored("Requesting Support:", 'blue', attrs=['bold']))
-    # Implementation to request support
+
 
 
 def menuAdmin():
     options = [
-        "1. Mr.IT chat 🤖",
-        "2. Dashboard 📊",
-        "3. User Managers",
-        "4. Assets",
-        "5. Exit "
+        "1. Mr.IT chat    🤖",
+        "2. Dashboard     📊",
+        "3. User Managers 🎩",
+        "4. Assets        📝",
+        "5. Exit          🚪"
     ]
 
-    main_menu = TerminalMenu(options,title="Assets Management Menu",
+    main_menu = TerminalMenu(options,title="\n\n<========= Assets Management Menu =========>\n\n",
                 menu_cursor="-> ",
                 menu_cursor_style=("bg_green", "fg_yellow"),
                 menu_highlight_style=("bg_green", "fg_yellow"),
-
                 cycle_cursor=True,
                 )
     quiting = False
@@ -178,7 +237,7 @@ def main():
         ]
 
         employees = EMP()
-        mainMenu = TerminalMenu(options,title="Assets Management Menu",
+        mainMenu = TerminalMenu(options,title="\n\n<========== Registration Menu ==========>\n\n",
                 menu_cursor="-> ",
                 menu_cursor_style=("bg_blue", "fg_yellow"),
                 menu_highlight_style=("bg_green", "fg_yellow"),
@@ -190,22 +249,23 @@ def main():
             optionsIndex = mainMenu.show()
             optionsChoice = options[optionsIndex]
             clear_console()
-            print(colored("\n\nWelcome to Mr.IT Registration Page 🩵\n", 'blue', attrs=['bold']))
+            print(colored("\n\n<============ Welcome to Mr.IT Registration Page 🔑🚪 ============>\n", 'blue', attrs=['bold']))
             if optionsChoice.startswith("1"):
                 email = input(colored('Enter your email: ', 'green', attrs=['bold'])).lower()
-                password = input(colored('Enter your password: ', 'green', attrs=['bold'])).lower()
+                password = getpass.getpass(colored('Enter your password: ', 'green', attrs=['bold'])).lower()
                 user = employees.auth_users(email, password)
                 if user:
-                    if user['Employee Role'].upper() == 'ADMIN':
+                    if user['Employee Role'].lower() == 'admin':
                         print(colored("Welcome Admin 🩵", 'green', attrs=['bold']))
                         menuAdmin()
                     else:
-                        print(colored("Welcome User 🩵", 'green', attrs=['bold']))
-                        menuUser()
+                        print(colored("Welcome IT💻", 'green', attrs=['bold']))
+                        menuIT()
                 else:
                     print(colored("Invalid username or password, please try again.", 'red', attrs=['bold']))
             elif optionsChoice.startswith("2"):
-                employees.reg_new_users()
+                users = Users()
+                users.reg_new_users()
             elif optionsChoice.startswith("3"):
                 print(colored("Thanks for using Mr.IT System 🩵 \n stay safe, see you soon 👋", 'blue', attrs=['bold']))
                 break

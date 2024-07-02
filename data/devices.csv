@@ -1,16 +1,6 @@
 Asset ID,Asset Type,Brand,Model,Serial Number,Operating System,Processor,RAM,Storage,Purchase Date,Warranty Information,Assigned To,Location,Cost,Depreciation
-1,Laptop,Dell,XPS 13,SN12345A,Windows 10,Intel i7,16GB,512GB SSD,15/01/2023,3 years,John Doe,HQ,$1200.00,$400.00
-2,Desktop,HP,Envy,SN12345B,Windows 10,Intel i5,8GB,1TB HDD,20/11/2022,2 years,Jane Smith,Branch1,$800.00,$200.00
-3,Server,Dell,PowerEdge,SN12345C,Ubuntu 20.04,Intel Xeon,32GB,2TB SSD,10/03/2023,5 years,IT Dept,DataCenter,$3000.00,$500.00
-4,Laptop,Apple,MacBook Pro,SN12345D,macOS Monterey,Apple M1,16GB,1TB SSD,25/04/2023,1 year,Mary Johnson,HQ,$1500.00,$300.00
-5,Desktop,Lenovo,ThinkCentre,SN12345E,Windows 11,Intel i5,8GB,512GB SSD,15/09/2022,2 years,Bob Brown,Branch2,$900.00,$300.00
-6,Laptop,HP,Spectre x360,SN12345F,Windows 10,Intel i7,16GB,512GB SSD,30/05/2023,3 years,Alice Davis,HQ,$1300.00,$400.00
-7,Server,HP,ProLiant,SN12345G,CentOS 7,AMD EPYC,64GB,4TB SSD,12/06/2023,5 years,IT Dept,DataCenter,$5000.00,$800.00
-8,Desktop,Apple,iMac,SN12345H,macOS Monterey,Intel i9,32GB,2TB SSD,05/10/2022,1 year,Chris Wilson,Branch3,$2500.00,$600.00
-9,Laptop,Lenovo,Yoga,SN12345I,Windows 10,Intel i5,8GB,256GB SSD,18/02/2023,3 years,Emma Thompson,HQ,$1000.00,$200.00
-10,Server,Cisco,UCS,SN12345J,Windows Server 2019,Intel Xeon,128GB,8TB SSD,08/07/2023,5 years,IT Dept,DataCenter,$8000.00,$1000.001
-11,Desktop,Dell,OptiPlex,SN12345K,Windows 10,Intel i3,4GB,256GB SSD,22/12/2022,2 years,David White,Branch,$600.00,$100.00
-6442917118,a,a,a,a,a,a,a,a,a,a,a,a,a,a
-7357565292,w,w,w,w,w,w,w,w,w,w,w,w,w,w
-6442917118,a,a,a,a,a,a,a,a,a,a,a,a,a,a
-7357565292,w,w,w,w,w,w,w,w,w,w,w,w,w,w
+7357565292,Laptop,Dell,XPS 13,SN12345A,Windows 10,Intel i7,16GB,512GB SSD,15/01/2023,3 years,John Doe,HQ,$1200.00,$400.00
+6442917118,Desktop,HP,Envy,SN12345B,Windows 10,Intel i5,8GB,1TB HDD,20/11/2022,2 years,Jane Smith,Branch1,$800.00,$200.00
+6505473089,PC,ASUS,AIR,1234567890,WINDOWS 11,INTEL I9,32 GB,512 SSD,2024-12-09,4,abdullah,makkah - Alghamdi company ,5000,3000
+2235315484,LAPTOP,HP,XPS 13,1234567890Ac,windows 11,intel i5,8GB,1TB SSD,2020-09-09,4,ABDULLAH,MAKKAH,500,50
+9274971061,laptop,dell,2 in 1,123456789,Windows 11,intel i 9[,8 gb,512 GB,2023-09-09,234,abdullah,makkah,5000,300

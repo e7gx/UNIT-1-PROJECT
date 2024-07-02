@@ -1,10 +1,11 @@
+import os
 import openai
 from termcolor import colored 
-from termcolor import colored
-from module.users.users_manger import Employees
-from simple_term_menu import TerminalMenu
-# Set your OpenAI API key directly. This should ideally be loaded from an environment variable for security reasons.
-openai.api_key = 'sk-proj-Lvj3ExQYzUmOEOJhd1xCT3BlbkFJ91b16l8c70Wer1WtY8mX'  
+from dotenv import load_dotenv
+
+load_dotenv()
+api_key = os.getenv('OPENAI_API_KEY')
+
 
 def chat_with_gpt_abdullah(messages):
     """
@@ -40,6 +41,7 @@ def chatgpt_chat():
 
     while True:
         user_input = input(colored("You:   ", 'white', attrs=['bold']))
+        user_input = "User: " + user_input
         if "goodbye" in user_input.lower() or "exit" in user_input.lower(): 
             break
         conversation.append({"role": "user", "content": user_input})
@@ -49,34 +51,3 @@ def chatgpt_chat():
         conversation.append({"role": "system", "content": response})
         
         
-        
-    def user_manager_menu(self):
-        user_manager_menu = [
-                "1. Add User 👨🏻‍💻",
-                "2. Delete User 🙅🏻‍♂️",
-                "3. Display All Users 👀",
-                "4. Find User 🔍",
-                "5. Exit 🚪"
-            ]
-    
-        quitting = False  # Corrected spelling
-
-        while not quitting:  # More Pythonic way to write `while quitting == False:`
-            terminal_menu1 = TerminalMenu(user_manager_menu)
-            choice_index1 = terminal_menu1.show()
-
-            print(colored("\n===== Data Analysis Dashboard =====", 'blue', attrs=['bold']))
-            
-            if choice_index1 == 0:
-                self.reg_new_admin()
-            elif choice_index1 == 1:
-                self.delete_user()
-            elif choice_index1 == 2:
-                self.get_users()
-            elif choice_index1 == 3:
-                self.find_user()
-            elif choice_index1 == 4:
-                print(colored("Exiting the Data Analysis Dashboard...", 'red', attrs=['bold']))
-                quitting = True  # Properly set quitting to True to exit the loop
-            else:
-                print(colored("Invalid choice! Please enter a valid option.", 'yellow', attrs=['bold']))

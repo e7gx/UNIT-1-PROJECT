@@ -1,0 +1,5 @@
+Asset ID,Asset Type,Brand,Model,Serial Number,Operating System,Processor,RAM,Storage,Purchase Date,Warranty Information,Assigned To,Location,Cost,Depreciation
+7357565292,Laptop,Dell,XPS 13,SN12345A,Windows 10,Intel i7,16GB,512GB SSD,15/01/2023,3 years,John Doe,HQ,$1200.00,$400.00
+6442917118,Desktop,HP,Envy,SN12345B,Windows 10,Intel i5,8GB,1TB HDD,20/11/2022,2 years,Jane Smith,Branch1,$800.00,$200.00
+6505473089,PC,ASUS,AIR,1234567890,WINDOWS 11,INTEL I9,32 GB,512 SSD,2024-12-09,4,abdullah,makkah - Alghamdi company ,5000,3000
+2235315484,LAPTOP,HP,XPS 13,1234567890Ac,windows 11,intel i5,8GB,1TB SSD,2020-09-09,4,ABDULLAH,MAKKAH,500,50

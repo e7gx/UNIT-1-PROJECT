@@ -6,9 +6,8 @@ def generate_qr_code():
     df = pd.read_csv('data/devices.csv')
 
     # Create the "qrcode_assets" folder if it doesn't exist
-    if not os.path.exists('qrcode_assets'):
-        os.makedirs('qrcode_assets')
-
+    if not os.path.exists('data/code/qrcode_assets'):
+        os.makedirs('data/code/qrcode_assets')
     for index, values in df.iterrows():
         asset_id = values["Asset ID"]
         asset_type = values["Asset Type"]
@@ -45,5 +44,7 @@ def generate_qr_code():
         '''
         
         image = pyqrcode.create(data)
-        image.png(f'data/qrcode_assets/{asset_id}_{asset_type}.png', scale=5)
+        image.png(f'data/code/qrcode_assets/{asset_id}_{asset_type}.png', scale=5)
         # print(image.terminal(quiet_zone=9))
+
+
