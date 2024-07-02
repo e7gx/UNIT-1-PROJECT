@@ -4,12 +4,25 @@ Welcome to Mr.IT, a comprehensive asset management system designed to streamline
 
 ## Features
 
-- **Inventory Management**: Keep a detailed record of all your IT assets, including hardware, software, and licenses, in one centralized location.
-- **User Management**: Control access and permissions within the system to ensure secure management of assets.
-- **Reporting**: Generate insightful reports on asset utilization, availability, maintenance schedules, and more to aid in decision-making.
-- **Alerts and Notifications**: Stay informed with real-time notifications about asset maintenance, renewals, and other critical updates.
+Features 🚀
+Inventory Management: Track assets including hardware, software, and licenses. 🖥️
+
+User Management: Manage user access and permissions for asset management. 👤
+
+Reporting: Generate files on asset utilization, availability, and more. 📊
+
+Alerts and Notifications: Receive notifications for asset maintenance, renewals, or critical changes. 🔔
+
+AI Chat using chatgpt API you have to replace it with your API and add it to .env file. 🤖
+
+Data Visualization: Utilize Matplotlib for visualizing user and asset data. 📈
+
+Computer Vision: Implement Computer Vision for reading QR codes and displaying data using cv2 and pyzbar. 📷
+
+
 
 ## Installation
+
 
 To get started with Mr.IT, follow these steps:
 
@@ -17,7 +30,10 @@ To get started with Mr.IT, follow these steps:
 
 ```bash
 git clone https://github.com/e7gx/UNIT-1-PROJECT.git
-cd Mr.IT
+cd UNIT-1-PROJECT
+
+run main.py
+
 
 
 For macOS users:
