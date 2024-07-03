@@ -1,3 +1,8 @@
+
+<img width="547" alt="logo" src="https://github.com/e7gx/UNIT-1-PROJECT/assets/128918277/45ae3535-28c0-431e-9420-ccb9f6f3ad4c">
+
+
+
 ## <center>Mr.IT 💻</center>
 
 Asset Management System
