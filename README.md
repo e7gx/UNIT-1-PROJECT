@@ -8,9 +8,8 @@
 Asset Management System
 Welcome to Mr.IT, a comprehensive asset management system designed to streamline the process of tracking and managing IT assets. Built with Python, Mr.IT offers a user-friendly platform for organizations to maintain an organized inventory of their hardware, software licenses, and other IT assets.
 
-## Features
+## Features🚀
 
-Features 🚀
 Inventory Management: Track assets including hardware, software, and licenses. 🖥️
 
 User Management: Manage user access and permissions for asset management. 👤
