@@ -19,8 +19,6 @@ Qr Code : unique Generate QR code for all of your assets 🖨️
 
 Reporting: Generate files on asset utilization, availability, and more. 📊
 
-Alerts and Notifications: Receive notifications for asset maintenance, renewals, or critical changes. 🔔
-
 AI Chat using chatgpt API you have to replace it with your API and add it to .env file. 🤖
 
 Data Visualization: Utilize Matplotlib for visualizing user and asset data. 📈
